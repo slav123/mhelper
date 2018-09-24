@@ -5,7 +5,6 @@ import (
 	"time"
 )
 
-
 func TestGetMD5Hash(t *testing.T) {
 	data := "http://www.gex.pl/test.html"
 	result := GetMD5Hash(data)
@@ -62,19 +61,19 @@ func TestCleanDate(t *testing.T) {
 func TestParseDate(t *testing.T) {
 
 	samples := []struct {
-		src string
+		src    string
 		result string
-		reg string
+		reg    string
 	}{
 		{"06 August 2018 9:30 am - 03 December 2018 3:00 pm", "06 Aug 2018 00:00:00 UTC", "^(\\d{2})\\s(\\w+)\\s(\\d{4})"},
 		{"04 August 2018 2:00 pm", "04 Aug 2018 00:00:00 UTC", "^(\\d{2})\\s(\\w+)\\s(\\d{4})"},
-		{"2 July 2014",  "02 Jul 2014 00:00:00 UTC", ""},
+		{"2 July 2014", "02 Jul 2014 00:00:00 UTC", ""},
 		{"Mon, 17 Sep 2018 06:38:00 GMT", "17 Sep 2018 06:38:00 UTC", ""},
 		{"Wednesday, 12 September 2018 8:30:34 AM", "12 Sep 2018 08:30:34 UTC", ""},
 		{"Thursday 13 September 2018", "13 Sep 2018 00:00:00 UTC", ""},
 		{"14/09/2018", "14 Sep 2018 00:00:00 UTC", ""},
 		{"Thu, 13 Sep 2018 16:30:59 +10:00", "13 Sep 2018 16:30:59 AEST", ""},
-		{ "2018-09-11T00:00:00+08:00", "11 Sep 2018 00:00:00 AWST", ""},
+		{"2018-09-11T00:00:00+08:00", "11 Sep 2018 00:00:00 AWST", ""},
 	}
 
 	var rtime time.Time
@@ -83,25 +82,25 @@ func TestParseDate(t *testing.T) {
 	for _, sample := range samples {
 		rtime, _ = time.Parse("02 Jan 2006 15:04:05 MST", sample.result)
 		result = ParseDate(sample.src, sample.reg)
-		if  rtime != result {
+		if rtime != result {
 			t.Errorf("Failed to parse %s got %s expected %s", sample.src, result, rtime)
 		}
 	}
 }
 
 func TestCleanString(t *testing.T) {
-	samples := []struct{
-		src string
+	samples := []struct {
+		src    string
 		result string
 	}{
-		{ "		Boondall,  				                	24 Eton Avenue                        ", "Boondall, 24 Eton Avenue"},
+		{"		Boondall,  				                	24 Eton Avenue                        ", "Boondall, 24 Eton Avenue"},
 	}
 
 	var result string
 
 	for _, sample := range samples {
 		result = CleanString(sample.src)
-		if  result != sample.result {
+		if result != sample.result {
 			t.Errorf("Failed to clean '%s' : '%s", sample.src, result)
 		}
 	}
