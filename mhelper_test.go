@@ -74,6 +74,7 @@ func TestParseDate(t *testing.T) {
 		{"14/09/2018", "14 Sep 2018 00:00:00 UTC", ""},
 		{"Thu, 13 Sep 2018 16:30:59 +10:00", "13 Sep 2018 16:30:59 AEST", ""},
 		{"2018-09-11T00:00:00+08:00", "11 Sep 2018 00:00:00 AWST", ""},
+		{"Wed 03 Oct", "03 Oct 2018 00:00:00 UTC", ""},
 	}
 
 	var rtime time.Time

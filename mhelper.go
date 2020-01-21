@@ -3,7 +3,8 @@ package mhelper
 import (
 "crypto/md5"
 "encoding/hex"
-"regexp"
+	"fmt"
+	"regexp"
 "strings"
 	"time"
 	"github.com/araddon/dateparse"
@@ -94,6 +95,8 @@ func ParseDate(createdString, reg string) time.Time {
 		createdString = strings.Join(matches[:], " ")
 	}
 
+
+
 	t, err := dateparse.ParseStrict(createdString)
 	if err != nil {
 		log.Printf("unable to recognize date :%+q\n:", createdString)
@@ -101,6 +104,13 @@ func ParseDate(createdString, reg string) time.Time {
 		//		return time.Now()
 	} else {
 		return t
+	}
+
+	re = regexp.MustCompile("[A-Z]{1}[a-z]{2}\\s\\d{2}\\s[A-Z]{1}[a-z]{2}")
+	if re.MatchString(createdString) {
+		t := time.Now()
+		y := t.Year()
+		createdString = fmt.Sprintf("%s %d", createdString, y)
 	}
 
 	// basic: Mon Jan 2 15:04:05 -0700 MST 2006
